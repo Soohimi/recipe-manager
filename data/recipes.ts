@@ -4,7 +4,7 @@ export const recipes = [
     title: "Pasta Carbonara",
     description: "A classic Italian pasta dish with creamy sauce and bacon.",
     time: "30 mins",
-    image: "/images/pasta.jpg",
+    image: "/images/pastacarbonara.jpg",
     ingredients: [
       "200g pasta",
       "100g bacon",
@@ -25,7 +25,7 @@ export const recipes = [
     title: "Chicken Curry",
     description: "Spicy and flavorful chicken curry with aromatic spices.",
     time: "45 mins",
-    image: "/images/chicken-curry.jpg",
+    image: "/images/chickencurry.jpg",
     ingredients: [
       "500g chicken",
       "1 onion",
@@ -47,7 +47,7 @@ export const recipes = [
     title: "Chocolate Cake",
     description: "Rich and moist chocolate cake perfect for dessert.",
     time: "1 hr",
-    image: "/images/chocolate-cake.jpg",
+    image: "/images/chocolatecake.jpg",
     ingredients: [
       "200g flour",
       "150g sugar",
@@ -70,7 +70,7 @@ export const recipes = [
     description:
       "Fresh Caesar salad with crunchy croutons and creamy dressing.",
     time: "20 mins",
-    image: "/images/caesar-salad.jpg",
+    image: "/images/CaesarSalad.jpg",
     ingredients: [
       "1 romaine lettuce",
       "50g parmesan",
