@@ -20,19 +20,38 @@ export default function RecipePage() {
   const { id } = useParams();
   const recipeId = Number(id);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("recipes");
-    const allRecipes = saved ? JSON.parse(saved) : baseRecipes;
-    const found = allRecipes.find((r: Recipe) => r.id === recipeId);
-    setRecipe(found || null);
+    const timer = setTimeout(() => {
+      const saved = localStorage.getItem("recipes");
+      const allRecipes = saved ? JSON.parse(saved) : baseRecipes;
+      const found = allRecipes.find((r: Recipe) => r.id === recipeId);
+      setRecipe(found || null);
+      setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [recipeId]);
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
 
   if (!recipe)
     return (
-      <p className="p-6 text-center text-red-500">
-        Recipe not found or removed.
-      </p>
+      <main className="p-6 text-center">
+        <p className="text-red-500 mb-4">Recipe not found or removed.</p>
+        <Link
+          href="/"
+          className="text-blue-500 hover:text-blue-700 transition-colors"
+        >
+          ← Back to recipes
+        </Link>
+      </main>
     );
 
   return (
@@ -51,6 +70,7 @@ export default function RecipePage() {
             alt={recipe.title}
             fill
             className="object-cover"
+            priority
           />
         )}
       </div>

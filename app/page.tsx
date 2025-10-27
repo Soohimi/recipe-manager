@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import { RecipeSkeleton } from "@/components/RecipeSkeleton";
 
 interface Recipe {
   id: number;
@@ -48,6 +49,7 @@ export default function Home() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
   const [newRecipe, setNewRecipe] = useState<RecipeFormState>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem("recipes");
@@ -57,6 +59,9 @@ export default function Home() {
       setRecipes(baseRecipes);
       localStorage.setItem("recipes", JSON.stringify(baseRecipes));
     }
+
+    const t = setTimeout(() => setLoading(false), 700);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
@@ -132,7 +137,9 @@ export default function Home() {
   return (
     <main className="p-6 max-w-6xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
-        <Link href="/about">About</Link>
+        <Link href="/about" className="text-blue-500 hover:underline">
+          About
+        </Link>
 
         <h1 className="text-3xl font-bold">🍽 Recipe Manager</h1>
         <ThemeToggle />
@@ -141,7 +148,7 @@ export default function Home() {
       <section className="text-center space-y-4">
         <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
           Search your favorite recipes, discover new dishes, and enjoy cooking!
-        </p>{" "}
+        </p>
         <Input
           placeholder="Search recipes..."
           value={searchTerm}
@@ -212,7 +219,7 @@ export default function Home() {
                 reader.readAsDataURL(file);
               }}
             />
-            <Button onClick={handleSaveRecipe} className="mt-2">
+            <Button onClick={handleSaveRecipe} className="mt-2 w-full">
               Save
             </Button>
           </div>
@@ -220,7 +227,9 @@ export default function Home() {
       </Dialog>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredRecipes.length > 0 ? (
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => <RecipeSkeleton key={i} />)
+        ) : filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
