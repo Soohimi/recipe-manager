@@ -1,37 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📖 Overview
 
-## Getting Started
+This update transforms the Recipe Manager into a fully functional, client-side app where users can create, delete, and persist recipes — all without a backend.
+Recipes remain available even after refreshing or navigating between pages.
 
-First, run the development server:
+🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Add Recipes: Users can create custom recipes with title, ingredients, instructions, and image upload.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Persistent Storage: All recipes are saved to localStorage to ensure they stay after refresh.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Delete Functionality: Easily remove any recipe using a dropdown menu.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Dynamic Routing: Each recipe has its own detail page (/recipe/[id]).
 
-## Learn More
+Base Recipes Included: Default recipes are loaded from /data/recipes.ts on first load.
 
-To learn more about Next.js, take a look at the following resources:
+Modern UI: Styled with shadcn/ui components (Dialog, Button, DropdownMenu).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Responsive Layout: Works smoothly on desktop and mobile screens.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+⚙️ Technical Details
 
-## Deploy on Vercel
+Data Initialization:
+On first load, recipes are fetched from /data/recipes.ts.
+If localStorage already contains user-added recipes, those are merged automatically.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+State Syncing:
+The app keeps React state and localStorage synchronized using useEffect.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# recipe-manager
+Image Upload:
+Uploaded images are converted to Base64 strings using FileReader, allowing preview and storage without a backend.
+
+Routing:
+Implemented dynamic routes using [id] inside /recipe folder to handle individual recipe pages.
+
+💡 Key Challenges Solved
+
+Fixed issue where new recipes disappeared after navigation or refresh.
+
+Prevented “Recipe not found” errors for dynamically added recipes.
+
+Achieved full offline persistence without backend APIs.
+
+🧩 Folder Structure
+/app
+├── page.tsx → Main page (list, add, delete)
+├── /recipe/[id]/page.tsx → Individual recipe detail
+/data
+└── recipes.ts → Default static recipes
+/components
+├── theme-toggle.tsx → Theme toggle
+└── ui/ → shadcn components (Dialog, Button, DropdownMenu)
+
+👨🏻‍💻 Implementation Summary
+
+Developer: Soheil
+Main Tech: Next.js, React, TypeScript, shadcn/ui
+Persistence: localStorage
+Duration: ~2 days

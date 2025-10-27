@@ -9,7 +9,6 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // جلوگیری از hydration error
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 

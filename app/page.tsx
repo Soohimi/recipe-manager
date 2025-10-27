@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { recipes as baseRecipes } from "@/data/recipes";
+import { baseRecipes } from "@/data/recipes";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -132,12 +132,16 @@ export default function Home() {
   return (
     <main className="p-6 max-w-6xl mx-auto space-y-8">
       <div className="flex justify-between items-center">
+        <Link href="/about">About</Link>
+
         <h1 className="text-3xl font-bold">🍽 Recipe Manager</h1>
         <ThemeToggle />
       </div>
 
       <section className="text-center space-y-4">
-        <h2 className="text-2xl font-semibold">Your Recipe Manager</h2>
+        <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+          Search your favorite recipes, discover new dishes, and enjoy cooking!
+        </p>{" "}
         <Input
           placeholder="Search recipes..."
           value={searchTerm}

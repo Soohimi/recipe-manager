@@ -1,4 +1,4 @@
-export const recipes = [
+export const baseRecipes = [
   {
     id: 1,
     title: "Pasta Carbonara",
