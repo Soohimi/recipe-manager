@@ -1,16 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { recipes } from "@/data/recipes";
 import Link from "next/link";
 import Image from "next/image";
+import { recipes as baseRecipes } from "@/data/recipes";
+
+interface Recipe {
+  id: number;
+  title: string;
+  description: string;
+  time: string;
+  image: string;
+  ingredients: string[];
+  instructions: string[];
+}
 
 export default function RecipePage() {
-  const params = useParams();
-  const recipeId = Number(params?.id);
-  const recipe = recipes.find((r) => r.id === recipeId);
+  const { id } = useParams();
+  const recipeId = Number(id);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
 
-  if (!recipe) return <p className="p-6 text-red-500">Recipe not found</p>;
+  useEffect(() => {
+    const saved = localStorage.getItem("recipes");
+    const allRecipes = saved ? JSON.parse(saved) : baseRecipes;
+    const found = allRecipes.find((r: Recipe) => r.id === recipeId);
+    setRecipe(found || null);
+  }, [recipeId]);
+
+  if (!recipe)
+    return (
+      <p className="p-6 text-center text-red-500">
+        Recipe not found or removed.
+      </p>
+    );
 
   return (
     <main className="p-6 max-w-3xl mx-auto flex flex-col gap-6">
@@ -22,13 +45,14 @@ export default function RecipePage() {
       </Link>
 
       <div className="relative w-full h-[300px] rounded-xl overflow-hidden shadow-md">
-        <Image
-          src={recipe.image}
-          alt={recipe.title}
-          fill
-          className="object-cover"
-          priority
-        />
+        {recipe.image && (
+          <Image
+            src={recipe.image}
+            alt={recipe.title}
+            fill
+            className="object-cover"
+          />
+        )}
       </div>
 
       <section>
@@ -44,8 +68,8 @@ export default function RecipePage() {
       <section>
         <h3 className="text-xl font-semibold mt-6 mb-2">🧂 Ingredients</h3>
         <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-          {recipe.ingredients.map((item, index) => (
-            <li key={index}>{item}</li>
+          {recipe.ingredients.map((item, i) => (
+            <li key={i}>{item}</li>
           ))}
         </ul>
       </section>
@@ -53,8 +77,8 @@ export default function RecipePage() {
       <section>
         <h3 className="text-xl font-semibold mt-6 mb-2">👨‍🍳 Instructions</h3>
         <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
-          {recipe.instructions.map((step, index) => (
-            <li key={index}>{step}</li>
+          {recipe.instructions.map((step, i) => (
+            <li key={i}>{step}</li>
           ))}
         </ol>
       </section>
